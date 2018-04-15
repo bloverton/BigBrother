@@ -13,7 +13,7 @@
         // **********************************************
 
         // Replace the subscriptionKey string value with your valid subscription key.
-        var subscriptionKey = "09704c2956f3456da82d62e3d78532d5";
+        var subscriptionKey = "73b06c4da9de4ee9af1fe6374abe7ec8";
 
         // Replace or verify the region.
         //
@@ -55,6 +55,8 @@
         .done(function(data) {
             // Show formatted JSON on webpage.
             $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            var emotionData = detectEmotion(data);
+            document.getElementById("likelyEmotion").innerHTML = JSON.stringify(detectEmotion(data), null, 4);
         })
 
         .fail(function(jqXHR, textStatus, errorThrown) {
@@ -65,6 +67,23 @@
             alert(errorString);
         });
     };
+
+    function detectEmotion (json) {
+        var allEmotions = json[0].faceAttributes.emotion;
+        //Return emotion with greatest value
+        var likelyEmotion = "";
+        var highestEmotionValue = 0;
+        //Iterate through all available emotions until you find the emotion with the greatest value
+        for(var currentEmotion in allEmotions) {
+            var emotionValue = allEmotions[currentEmotion];
+            if(emotionValue > highestEmotionValue) {
+                highestEmotionValue = emotionValue;
+                likelyEmotion = currentEmotion;
+            }
+        }
+        var emotionKV = {likelyEmotion, highestEmotionValue};
+        return emotionKV;
+    }
 </script>
 
 <h1>Detect Faces:</h1>
@@ -78,6 +97,7 @@ Image to analyze: <input type="text" name="inputImage" id="inputImage" value="ht
         Response:
         <br><br>
         <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
+        <p id="likelyEmotion"></p>
     </div>
     <div id="imageDiv" style="width:420px; display:table-cell;">
         Source image:
