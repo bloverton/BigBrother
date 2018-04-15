@@ -3,6 +3,7 @@
 <head>
     <title>Detect Faces Sample</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="config.js"></script>
 </head>
 <body>
 
@@ -13,7 +14,7 @@
         // **********************************************
 
         // Replace the subscriptionKey string value with your valid subscription key.
-        var subscriptionKey = "73b06c4da9de4ee9af1fe6374abe7ec8";
+        var subscriptionKey = SUBSCRIPTION_KEY;
 
         // Replace or verify the region.
         //
@@ -23,7 +24,7 @@
         //
         // NOTE: Free trial subscription keys are generated in the westcentralus region, so if you are using
         // a free trial subscription key, you should not need to change this region.
-        var uriBase = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
+        var uriBase = URI_BASE;
 
         // Request parameters.
         var params = {
