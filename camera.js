@@ -72,6 +72,7 @@ function gotStream(stream) {
     videoElement.srcObject = stream
 }
 
+//Displays an error if anything goes wrong
 function handleError(error) {
     console.error('Error: ', error)
 }
@@ -97,6 +98,7 @@ function startSession() {
 function stopSession() {
     isSessionOn = false;
     sessionStatus.innerHTML = 'Stopped'
+    resetEmotions()
     window.clearInterval(() => startSession(), 1000)
     window.clearInterval(() => startTimer(), 1000)
     img.src = ''

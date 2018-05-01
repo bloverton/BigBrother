@@ -1,3 +1,13 @@
+var accumulatedEmotions = {
+    'anger': 0,
+    'contempt': 0,
+    'disgust': 0,
+    'fear': 0,
+    'happiness': 0,
+    'neutral': 0,
+    'sadness': 0,
+    'surprise': 0
+}
 
 function processImage() {
     // **********************************************
@@ -21,40 +31,40 @@ function processImage() {
     var params = {
         "returnFaceId": "true",
         "returnFaceLandmarks": "false",
-        "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+        "returnFaceAttributes": "emotion",
     };
 
     // Perform the REST API call.
     $.ajax({
             url: uriBase + "?" + $.param(params),
-
             // Request headers.
             beforeSend: function (xhrObj) {
                 xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
                 xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
             },
-
             type: "POST",
             processData: false,
             contentType: 'application/octet-stream',
-
-            // Request body.
-            data: makeblob(canvas.toDataURL('image/jpeg'))
+            data: makeblob(canvas.toDataURL('image/webp'))
         })
 
         .done((data) => {
-            // Show formatted JSON on webpage.
-            $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            console.log(JSON.stringify(data, null, 2))
+            //Don't process data if API can't detect faces
+            if(Object.keys(data).length === 0)
+                return
+            //API returns the emotions from each person and returns a javascript object
             var emotionData = detectEmotion(data);
-            document.getElementById("likelyEmotion").innerHTML = JSON.stringify(detectEmotion(data), null, 4);
+            //Calculates the new average emotions based on previous iteration
+            displayEmotions(emotionData)
         })
 
         .fail((jqXHR, textStatus, errorThrown) => {
             // Display error message.
-            var errorString = (errorThrown === "") ? "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+            var errorString = (errorThrown === "") ? "Error. " : errorThrown + " (" + jqXHR.status + "): "
             errorString += (jqXHR.responseText === "") ? "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
-                jQuery.parseJSON(jqXHR.responseText).message : jQuery.parseJSON(jqXHR.responseText).error.message;
-            alert(errorString);
+                jQuery.parseJSON(jqXHR.responseText).message : jQuery.parseJSON(jqXHR.responseText).error.message
+            alert(errorString)
         });
 };
 
@@ -79,22 +89,90 @@ function makeblob(dataURL) {
     return new Blob([uInt8Array], {type: contentType})
 }
 
+//Displays all emotion data to page
+function displayEmotions(emotionData) {
+    if(emotionData === [] || emotionData == [])
+        return
+    //Calculates the new average of emotions from previous iteration
+    for(let currentEmotion in emotionData) 
+        accumulatedEmotions[currentEmotion] = (accumulatedEmotions[currentEmotion] + emotionData[currentEmotion]) / 2
+
+    document.getElementById('angerEmotion').innerHTML = 'anger' + ': ' + parseFloat(Math.round(accumulatedEmotions['anger'] * 100)/ 100).toFixed(2)
+    document.getElementById('contemptEmotion').innerHTML = 'contempt: ' + parseFloat(Math.round(accumulatedEmotions['contempt'] * 100)/ 100).toFixed(2)
+    document.getElementById('disgustEmotion').innerHTML = 'disgust: ' + parseFloat(Math.round(accumulatedEmotions['disgust'] * 100)/ 100).toFixed(2)
+    document.getElementById('fearEmotion').innerHTML = 'fear: ' + parseFloat(Math.round(accumulatedEmotions['fear'] * 100)/ 100).toFixed(2)
+    document.getElementById('happinessEmotion').innerHTML = 'happiness: ' + parseFloat(Math.round(accumulatedEmotions['happiness'] * 100)/ 100).toFixed(2)
+    document.getElementById('neutralEmotion').innerHTML = 'neutral: ' + parseFloat(Math.round(accumulatedEmotions['neutral'] * 100)/ 100).toFixed(2)
+    document.getElementById('sadnessEmotion').innerHTML = 'sadness: ' + parseFloat(Math.round(accumulatedEmotions['sadness'] * 100)/ 100).toFixed(2)
+    document.getElementById('surpriseEmotion').innerHTML = 'surprise: ' + parseFloat(Math.round(accumulatedEmotions['surprise'] * 100)/ 100).toFixed(2)
+}
+
 function detectEmotion(json) {
-    var allEmotions = json[0].faceAttributes.emotion;
-    //Return emotion with greatest value
-    var likelyEmotion = "";
-    var highestEmotionValue = 0;
-    //Iterate through all available emotions until you find the emotion with the greatest value
-    for (var currentEmotion in allEmotions) {
-        var emotionValue = allEmotions[currentEmotion];
-        if (emotionValue > highestEmotionValue) {
-            highestEmotionValue = emotionValue;
-            likelyEmotion = currentEmotion;
-        }
+    //Total detected faces
+    var totalDetectedFaces = jsonLength(json)
+    //All recognized emotions
+    let angerAverage = 0
+    let contemptAverage = 0
+    let disgustAverage = 0
+    let fearAverage = 0
+    let happinessAverage = 0
+    let neutralAverage = 0
+    let sadnessAverage = 0
+    let surpriseAverage = 0
+
+    //Iterate through each emotion for the current detected face and accumulate
+    for(let i = 0; i < totalDetectedFaces; i++) {
+        var currentFaceEmotion = json[i].faceAttributes.emotion
+        angerAverage += currentFaceEmotion['anger']
+        contemptAverage += currentFaceEmotion['contempt']
+        disgustAverage += currentFaceEmotion['disgust']
+        fearAverage += currentFaceEmotion['fear']
+        happinessAverage += currentFaceEmotion['happiness']
+        neutralAverage += currentFaceEmotion['neutral']
+        sadnessAverage += currentFaceEmotion['sadness']
+        surpriseAverage += currentFaceEmotion['surprise']
     }
-    var emotionKV = {
-        likelyEmotion,
-        highestEmotionValue
-    };
-    return emotionKV;
+
+    //Calculates the average emotion values with the total faces detected
+    angerAverage /= totalDetectedFaces
+    contemptAverage /= totalDetectedFaces
+    disgustAverage /= totalDetectedFaces
+    fearAverage /= totalDetectedFaces
+    happinessAverage /= totalDetectedFaces
+    neutralAverage /= totalDetectedFaces
+    sadnessAverage /= totalDetectedFaces
+    surpriseAverage /= totalDetectedFaces
+
+    //return all emotion averages
+    var emotionAverages = {
+        'anger': angerAverage,
+        'contempt': contemptAverage,
+        'disgust': disgustAverage,
+        'fear': fearAverage,
+        'happiness': happinessAverage,
+        'neutral': neutralAverage,
+        'sadness': sadnessAverage,
+        'surprise': surpriseAverage
+    }
+    return emotionAverages
+}
+
+//Algorithm that returns a number if the class is interested or not
+//Implement soon
+function isClassInterested() {
+    let emotionScore = 0;
+    
+}
+
+/*Resets all accumulated emotions to 0
+    Note: Only used in stop button
+*/
+function resetEmotions() {
+    for(let currentEmotion in accumulatedEmotions)
+        accumulatedEmotions[currentEmotion] = 0
+}
+
+//Find the total number of objects in json
+function jsonLength(json) {
+    return Object.keys(json).length
 }
