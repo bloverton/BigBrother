@@ -108,6 +108,9 @@ async function startTimer() {
         let seconds = 0;
         timer = setInterval(() => {
             seconds++
+            if(sessionStatus.innerHTML === 'Stopped'){
+                seconds = 0;
+            }else{
             if(seconds % 60 < 10)
                  document.getElementById('second').innerText = '0' + seconds % 60 
             else 
@@ -116,7 +119,9 @@ async function startTimer() {
                 document.getElementById('minute').innerText = '0' + parseInt(seconds/ 60)
             else 
             document.getElementById('minute').innerText = parseInt(seconds/ 60)
+            }
         }, 1000)
+    
     })
 }
 
