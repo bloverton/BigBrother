@@ -45,7 +45,7 @@ function processImage() {
             type: "POST",
             processData: false,
             contentType: 'application/octet-stream',
-            data: makeblob(canvas.toDataURL('image/webp'))
+            data: makeblob(canvas.toDataURL('image/jpeg'))
         })
 
         .done((data) => {
