@@ -157,19 +157,21 @@ function detectEmotion(json) {
     return emotionAverages
 }
 
-//Algorithm that returns a number if the class is interested or not
+//Algorithm that returns a score between 0 and 1 if the class is interested or not
 //Implement soon
-function isClassInterested() {
+function isCrowdInterested() {
     let emotionScore = 0;
-    
+
 }
 
 /*Resets all accumulated emotions to 0
     Note: Only used in stop button
 */
 function resetEmotions() {
-    for(let currentEmotion in accumulatedEmotions)
+    for(var currentEmotion in accumulatedEmotions) {
         accumulatedEmotions[currentEmotion] = 0
+        document.getElementById(currentEmotion + 'Emotion').innerHTML = currentEmotion + ': ' + 0
+    }
 }
 
 //Find the total number of objects in json

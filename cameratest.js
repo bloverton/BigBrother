@@ -1,15 +1,14 @@
-const videoElement = document.querySelector('video')
+const videoElement = document.querySelector('video')//need
 const videoSelect = document.querySelector('select#videoSource')
 const startbutton = document.querySelector('#screenshot-button')
 const stopbutton = document.querySelector('#stop-button')
 const img = document.querySelector('#screenshot-img')
 const video = document.querySelector('#screenshot-video')
 
-//const trackingCanvas = document.getElementById('trackingCanvas')
-const canvas = document.getElementById('canvas')
+const canvas = document.createElement('canvas')//need
+const context = canvas.getContext('2d')//need
+const tracker = new tracking.ObjectTracker('face')//need anin
 
-//const trackingContext = trackingCanvas.getContext('2d')
-const context = canvas.getContext('2d')
 
 var screenshot = img.src
 var isSessionOn = false
@@ -76,7 +75,6 @@ function gotStream(stream) {
     videoElement.srcObject = stream
 }
 
-//Displays an error if anything goes wrong
 function handleError(error) {
     console.error('Error: ', error)
 }
@@ -90,7 +88,7 @@ function startSession() {
     var interval = window.setInterval(() => {
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight
-        context.drawImage(video, 0, 0)
+        canvas.getContext('2d').drawImage(video, 0, 0)
         processImage()    //emotiondetector.js
         window.clearInterval(interval)
         if(isSessionOn) {
@@ -102,59 +100,42 @@ function startSession() {
 function stopSession() {
     isSessionOn = false;
     sessionStatus.innerHTML = 'Stopped'
-    resetEmotions()
     window.clearInterval(() => startSession(), 1000)
     window.clearInterval(() => startTimer(), 1000)
     img.src = ''
     startbutton.disabled = false;
 }
 
-function detectFaces() {
-    let v = video
-    let c = trackingCanvas
-    let c2 = trackingContext
-
-    const tracker = new tracking.ObjectTracker('face')
-    tracker.setInitialScale(4)
-    tracker.setStepSize(2)
-    tracker.setEdgesDensity(0.1)
-
-    tracking.track('#screenshot-video', tracker)
-    tracker.on('track', event => {
+function init() {
+    tracking.track('#screenshot-video', tracker, {camera: true})//anin
+    tracker.on('track', event =>{
         console.log(event)
-        c2.clearRect(0, 0, c.width, c.height)
-        event.data.forEach(rect => {
-            c2.strokeStyle = '#a64ceb'
-            c2.strokeRect(rect.x, rect.y, rect.widt, rect.height)
-            c2.font = '11px Helvetica';
-            c2.fillStyle = "#fff";
-            c2.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-            c2.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        context.clearRect(0,0,canvas.width, canvas.height)
+        event.data.forEach( rect => {
+            context.strokeStyle = '#ff0000'
+            context.lineWidth = 4
+            context.strokeRect(rect.x, rect.y, rect.width, rect.height)
         })
     })
 }
 
+
 async function startTimer() {
-    return await new Promise(resolve => {
+     return await new Promise(resolve => {
         let seconds = 0;
         timer = setInterval(() => {
             seconds++
-            if(sessionStatus.innerHTML === 'Stopped'){
-                seconds = 0;
-            } else {
-                if(seconds % 60 < 10)
-                document.getElementById('second').innerText = '0' + seconds % 60 
+            if(seconds % 60 < 10)
+                 document.getElementById('second').innerText = '0' + seconds % 60 
             else 
                 document.getElementById('second').innerText = seconds % 60 
             if(seconds < 600) //Minute less than 10
                 document.getElementById('minute').innerText = '0' + parseInt(seconds/ 60)
             else 
             document.getElementById('minute').innerText = parseInt(seconds/ 60)
-            }
         }, 1000)
     })
 }
-
+window.onload = init()
 startbutton.onclick = startSession
 stopbutton.onclick = stopSession
-window.onload = detectFaces()

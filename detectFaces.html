@@ -4,6 +4,8 @@
     <title>Detect Class Emotions</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="face-min.js"></script>
+    <script type="text/javascript" src="tracking-min.js"></script>
     <link rel="stylesheet" href="page.css">
 </head>
 <body>
@@ -20,12 +22,16 @@
             <p>Session Status: <span id="sessionStatus"></span></p>
             <p>Elapsed Session Time:<span id="minute">00</span>:<span id="second">00</span></p>
         </div>
-        <div>
-            <video id="screenshot-video" muted autoplay></video>
-            <img id="screenshot-img" src="">
-            <canvas style="display:none;"></canvas>
-            <button id="screenshot-button" onclick="">Start Session</button>
-            <button id="stop-button">Stop Session</button>
+        <div id="container">
+            <div id="options">
+                <video id="screenshot-video" muted autoplay loop preload></video>
+            </div>
+            <div id="options">
+                <img id="screenshot-img" src="">
+                <canvas id="canvas" style="display:none;"></canvas>
+                <button id="screenshot-button" onclick="">Start Session</button>
+                <button id="stop-button">Stop Session</button>
+            </div>
         </div>
         <div id="highlight">
             <div>
@@ -45,7 +51,8 @@
         </div>
     </div>
 </body>
-
+<script type="text/javascript" src="tracking-min.js"></script>
+<script type="text/javascript" src="face-min.js"></script>
 <script type="text/javascript" src="config.js"></script>
 <script type="text/javascript" src="camera.js"></script> 
 <script type="text/javascript" src="emotiondetector.js"></script>
