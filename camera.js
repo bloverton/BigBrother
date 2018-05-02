@@ -143,6 +143,9 @@ async function startTimer() {
             } else {
                 if(seconds % 60 < 10)
                 document.getElementById('second').innerText = '0' + seconds % 60 
+            }else{
+            if(seconds % 60 < 10)
+                 document.getElementById('second').innerText = '0' + seconds % 60 
             else 
                 document.getElementById('second').innerText = seconds % 60 
             if(seconds < 600) //Minute less than 10
@@ -151,6 +154,7 @@ async function startTimer() {
             document.getElementById('minute').innerText = parseInt(seconds/ 60)
             }
         }, 1000)
+    
     })
 }
 
