@@ -1,42 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Detect Class Emotions</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="face-min.js"></script>
+    <script type="text/javascript" src="tracking-min.js"></script>
     <link rel="stylesheet" href="page.css">
 </head>
-
-<!--
-    <body>
-    <h1>Detect Faces:</h1>
-    Enter the URL to an image that includes a face or faces, then click the
-    <strong>Analyze face</strong> button.
-    <br>
-    <br> Image to analyze:
-    <input type="text" name="inputImage" id="inputImage" value="https://upload.wikimedia.org/wikipedia/commons/c/c3/RH_Louise_Lillian_Gish.jpg"
-    />
-    <button onclick="processImage()">Analyze face</button>
-    <br>
-    <br>
-    <div id="wrapper" style="width:1020px; display:table;">
-        <div id="jsonOutput" style="width:600px; display:table-cell;">
-            Response:
-            <br>
-            <br>
-            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
-            <p id="likelyEmotion"></p>
-        </div>
-        <div id="imageDiv" style="width:420px; display:table-cell;">
-            Source image:
-            <br>
-            <br>
-            <img id="sourceImage" width="400" />
-        </div>
-    </div>
-</body>
--->
-
 <body>
     <div id="container">
         <div id="options">
@@ -50,19 +21,37 @@
             </div>
             <p>Session Status: <span id="sessionStatus"></span></p>
             <p>Elapsed Session Time:<span id="minute">00</span>:<span id="second">00</span></p>
-            <p id="likelyEmotion">...</p>
         </div>
         <div>
-            <video id="screenshot-video" muted autoplay></video>
-            <img id="screenshot-img" src="">
-            <canvas style="display:none;"></canvas>
-            <button id="screenshot-button" onclick="">Start Session</button>
-            <button id="stop-button">Stop Session</button>
+            <div>
+                <canvas id="trackingCanvas"></canvas>
+                <video id="screenshot-video" muted autoplay loop preload></video>
+            </div>
+                <img id="screenshot-img" src="">
+                <canvas id="canvas" style="display:none;"></canvas>
+                <button id="screenshot-button" onclick="">Start Session</button>
+                <button id="stop-button">Stop Session</button>
         </div>
-        <p id="likelyEmotion"></p>
+        <div id="highlight">
+            <div>
+                <h2>Total emotion in classroom:</h2>
+                <p id="angerEmotion"></p>
+                <p id="contemptEmotion"></p>
+                <p id="disgustEmotion"></p>
+                <p id="fearEmotion"></p>
+                <p id="happinessEmotion"></p>
+                <p id="neutralEmotion"></p>
+                <p id="sadnessEmotion"></p>
+                <p id="surpriseEmotion"></p>
+            </div>
+            <div>
+                <p>Is class interested in lecture? </p>
+            </div>
+        </div>
     </div>
 </body>
-
+<script type="text/javascript" src="tracking-min.js"></script>
+<script type="text/javascript" src="face-min.js"></script>
 <script type="text/javascript" src="config.js"></script>
 <script type="text/javascript" src="camera.js"></script> 
 <script type="text/javascript" src="emotiondetector.js"></script>
