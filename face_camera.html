@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+  <style>
+      video, canvas{
+          position: absolute;
+      }
+  </style>
+</head>
+
+<body>
+    <video id="video" width="320" height="240" preload autoplay loop muted></video>
+    <canvas id="canvas" width="320" height="240"></canvas>
+    <script>
+        function init() {
+            const v = document.getElementById('video')
+            const c = document.getElementById('canvas')
+            const c2 = c.getContext('2d')
+            const tracker = new tracking.ObjectTracker('face')
+            tracking.track('#video', tracker, {camera: true})//anin
+            tracker.on('track', event =>{
+                console.log(event)
+                c2.clearRect(0,0,c.width, c.height)
+                event.data.forEach( rect => {
+                    c2.strokeStyle = '#ff0000'
+                    c2.lineWidth = 4
+                    c2.strokeRect(rect.x, rect.y, rect.width, rect.height)
+                })
+            })
+        }
+        window.onload = init()
+    </script>
+</body>
+</html>
