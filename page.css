@@ -248,8 +248,6 @@ video {
 
 #trackingCanvas{
   position: absolute;
-  width: 960px;
-  height: 720px;
 }
 
 @media (max-width: 650px) {

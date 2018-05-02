@@ -5,11 +5,11 @@ const stopbutton = document.querySelector('#stop-button')
 const img = document.querySelector('#screenshot-img')
 const video = document.querySelector('#screenshot-video')
 
-const trackingCanvas = document.getElementById('trackingCanvas')
 const canvas = document.getElementById('canvas')
-
-const trackingContext = trackingCanvas.getContext('2d')
 const context = canvas.getContext('2d')
+
+var trackingCanvas = document.getElementById('trackingCanvas')
+var trackingContext = trackingCanvas.getContext('2d')
 
 var screenshot = img.src
 var isSessionOn = false
@@ -110,6 +110,7 @@ function stopSession() {
 }
 
 function detectFaces() {
+    //Facial tracking
     const tracker = new tracking.ObjectTracker('face')
     tracker.setInitialScale(4)
     tracker.setStepSize(2)
@@ -119,6 +120,8 @@ function detectFaces() {
     tracker.on('track', event => {
         console.log(event)
         trackingContext.clearRect(0, 0, trackingCanvas.width, trackingCanvas.height)
+        trackingCanvas.width = videoElement.offsetWidth
+        trackingCanvas.height = videoElement.offsetHeight
         event.data.forEach(rect => {
             trackingContext.strokeStyle = '#a64ceb'
             trackingContext.strokeRect(rect.x, rect.y, rect.width, rect.height)
