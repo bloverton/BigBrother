@@ -3,7 +3,7 @@
 BigBrother is a facial recognition web application that determines the emotional atmosphere in a room setting based on a person's facial expression. By using Microsoft Cognitive Services and tracking.js, we are able to track a person's face and obtain multiple human emotions which are used to determine whether people in a setting are interested or not interested. 
 
 ## Prerequisites
-In order to use the BigBrother application, you must have
+In order to use the BigBrother application, you must have an
 1. External Camera/Webcam
 2. Up-to-date Web Browser
 
