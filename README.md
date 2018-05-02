@@ -4,20 +4,22 @@ BigBrother is a facial recognition web application that determines the emotional
 
 ## Prerequisites
 In order to use the BigBrother application, you must have
-1.) External Camera/Webcam
-2.) Up-to-date Web Browser
+1. External Camera/Webcam
+2. Up-to-date Web Browser
 
 ## Setup
 In order to setup BigBrother, you must 
-1.) Acquire a [Microsoft Cognitive Service Face API subscription key](https://azure.microsoft.com/en-us/try/cognitive-services/). 2.) Create a config.js file to store your subscription key as well as the uri_base (NOTE: URI_BASE is given to you when you get your subscription key)
+1. Acquire a [Microsoft Cognitive Service Face API subscription key](https://azure.microsoft.com/en-us/try/cognitive-services/). 2.) Create a config.js file to store your subscription key as well as the uri_base (NOTE: URI_BASE is given to you when you get your subscription key)
   * Your config.js file should look like this:
-    > var config = {
-    >    SUBSCRIPTION_KEY: <Your subscription key>
-    >    URI_BASE: <Your uri base>
-    > }
+    ```
+    var config = {
+        SUBSCRIPTION_KEY: <Your subscription key>
+        URI_BASE: <Your uri base>
+    }
+    ```
 3.) Open detectFaces.html in a browser
 
 ## APIs
-Microsoft Cognitive Services - Face API: Used to 
-tracking.js: Used for facial tracking
-face.js: Support file for detecting faces. Used for tracking.js
+1. Microsoft Cognitive Services - Face API: Used to 
+2. tracking.js: Used for facial tracking
+3. face.js: Support file for detecting faces. Used for tracking.js
