@@ -22,16 +22,15 @@
             <p>Session Status: <span id="sessionStatus"></span></p>
             <p>Elapsed Session Time:<span id="minute">00</span>:<span id="second">00</span></p>
         </div>
-        <div id="container">
-            <div id="options">
-                <video id="screenshot-video" muted autoplay loop preload></video>
+        <div>
+            <div>
+                <canvas id="trackingCanvas" width="960" height="720"></canvas>
             </div>
-            <div id="options">
+                <video id="screenshot-video" muted autoplay loop preload></video>
                 <img id="screenshot-img" src="">
                 <canvas id="canvas" style="display:none;"></canvas>
                 <button id="screenshot-button" onclick="">Start Session</button>
                 <button id="stop-button">Stop Session</button>
-            </div>
         </div>
         <div id="highlight">
             <div>

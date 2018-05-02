@@ -5,10 +5,10 @@ const stopbutton = document.querySelector('#stop-button')
 const img = document.querySelector('#screenshot-img')
 const video = document.querySelector('#screenshot-video')
 
-//const trackingCanvas = document.getElementById('trackingCanvas')
+const trackingCanvas = document.getElementById('trackingCanvas')
 const canvas = document.getElementById('canvas')
 
-//const trackingContext = trackingCanvas.getContext('2d')
+const trackingContext = trackingCanvas.getContext('2d')
 const context = canvas.getContext('2d')
 
 var screenshot = img.src
@@ -110,10 +110,6 @@ function stopSession() {
 }
 
 function detectFaces() {
-    let v = video
-    let c = trackingCanvas
-    let c2 = trackingContext
-
     const tracker = new tracking.ObjectTracker('face')
     tracker.setInitialScale(4)
     tracker.setStepSize(2)
@@ -122,14 +118,14 @@ function detectFaces() {
     tracking.track('#screenshot-video', tracker)
     tracker.on('track', event => {
         console.log(event)
-        c2.clearRect(0, 0, c.width, c.height)
+        trackingContext.clearRect(0, 0, trackingCanvas.width, trackingCanvas.height)
         event.data.forEach(rect => {
-            c2.strokeStyle = '#a64ceb'
-            c2.strokeRect(rect.x, rect.y, rect.widt, rect.height)
-            c2.font = '11px Helvetica';
-            c2.fillStyle = "#fff";
-            c2.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-            c2.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+            trackingContext.strokeStyle = '#a64ceb'
+            trackingContext.strokeRect(rect.x, rect.y, rect.width, rect.height)
+            trackingContext.font = '11px Helvetica';
+            trackingContext.fillStyle = "#fff";
+            trackingContext.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+            trackingContext.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
         })
     })
 }
