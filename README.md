@@ -9,7 +9,9 @@ In order to use the BigBrother application, you must have
 
 ## Setup
 In order to setup BigBrother, you must 
-1. Acquire a [Microsoft Cognitive Service Face API subscription key](https://azure.microsoft.com/en-us/try/cognitive-services/). 2.) Create a config.js file to store your subscription key as well as the uri_base (NOTE: URI_BASE is given to you when you get your subscription key)
+1. Acquire a [Microsoft Cognitive Service Face API subscription key](https://azure.microsoft.com/en-us/try/cognitive-services/)
+2. Create a config.js file to store your subscription key as well as the uri_base 
+   **NOTE: URI_BASE is given to you when you get your subscription key**
   * Your config.js file should look like this:
     ```
     var config = {
@@ -20,6 +22,6 @@ In order to setup BigBrother, you must
 3.) Open detectFaces.html in a browser
 
 ## APIs
-1. Microsoft Cognitive Services - Face API: Used to 
-2. tracking.js: Used for facial tracking
-3. face.js: Support file for detecting faces. Used for tracking.js
+1. [Microsoft Cognitive Services - Face API](https://azure.microsoft.com/en-us/services/cognitive-services/): Used to determine person's emotion based on facial expressions
+2. [tracking.js](https://trackingjs.com/): Used for facial tracking
+3. face.js: Support file for face detection. Used together with tracking.js
