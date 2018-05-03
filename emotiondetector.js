@@ -15,7 +15,7 @@ function processImage() {
     // **********************************************
 
     // Replace the subscriptionKey string value with your valid subscription key.
-    var subscriptionKey = 'subkey';
+    var subscriptionKey = '09704c2956f3456da82d62e3d78532d5';
 
     // Replace or verify the region.
     //
@@ -105,8 +105,30 @@ function displayEmotions(emotionData) {
     document.getElementById('neutralEmotion').innerHTML = 'neutral: ' + parseFloat(Math.round(accumulatedEmotions['neutral'] * 100)/ 100).toFixed(2)
     document.getElementById('sadnessEmotion').innerHTML = 'sadness: ' + parseFloat(Math.round(accumulatedEmotions['sadness'] * 100)/ 100).toFixed(2)
     document.getElementById('surpriseEmotion').innerHTML = 'surprise: ' + parseFloat(Math.round(accumulatedEmotions['surprise'] * 100)/ 100).toFixed(2)
+    formatClassEmotion();
+    
 }
 
+function formatClassEmotion(){
+    var max = Object.keys(accumulatedEmotions).reduce((a, b) => accumulatedEmotions[a] > accumulatedEmotions[b] ? a : b);
+    if(max === 'happiness'){
+        document.getElementById("classReaction").innerHTML = "Class is Happy"
+    }else if(max === 'anger'){
+        document.getElementById("classReaction").innerHTML = "Class is Angry"
+    }else if(max === 'contempt'){
+        document.getElementById("classReaction").innerHTML = "Class is Contempt"
+    }else if(max === 'disgust'){
+        document.getElementById("classReaction").innerHTML = "Class is Disgusted"
+    }else if(max === 'fear'){
+        document.getElementById("classReaction").innerHTML = "Class is Afraid"
+    }else if(max === 'neutral'){
+        document.getElementById("classReaction").innerHTML = "Class is Neutral"
+    }else if(max === 'sadness'){
+        document.getElementById("classReaction").innerHTML = "Class is Sad"
+    }else if(max === 'suprise'){
+        document.getElementById("classReaction").innerHTML = "Class is Suprised"
+    }
+}
 function detectEmotion(json) {
     //Total detected faces
     var totalDetectedFaces = jsonLength(json)
@@ -154,6 +176,7 @@ function detectEmotion(json) {
         'sadness': sadnessAverage,
         'surprise': surpriseAverage
     }
+    
     return emotionAverages
 }
 
@@ -163,6 +186,8 @@ function isCrowdInterested() {
     let emotionScore = 0;
 
 }
+
+
 
 /*Resets all accumulated emotions to 0
     Note: Only used in stop button
