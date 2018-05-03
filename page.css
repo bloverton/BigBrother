@@ -240,10 +240,14 @@ strong {
   font-weight: 500;
 }
 
-video, canvas#canvas {
-  position: absolute;
+video {
+  background: #222;
   margin: 0 0 20px 0;
   width: 100%;
+}
+
+#trackingCanvas{
+  position: absolute;
 }
 
 @media (max-width: 650px) {
