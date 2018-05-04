@@ -12,7 +12,11 @@ In order to setup BigBrother, you must
 1. Acquire a [Microsoft Cognitive Service Face API subscription key](https://azure.microsoft.com/en-us/try/cognitive-services/)
 2. Create a config.js file to store your subscription key as well as the uri_base 
    
-   **NOTE: URI_BASE is given to you when you get your subscription key**
+   **NOTE:** 
+   
+    **○ URI_BASE is given to you when you get your subscription key. URI_BASE and endpoint are the same thing**
+    
+    **○ You may also be given two keys, just use one of them**
   * Your config.js file should look like this:
     ```
     var config = {
