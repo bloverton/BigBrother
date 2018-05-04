@@ -25,7 +25,7 @@ function processImage() {
     //
     // NOTE: Free trial subscription keys are generated in the westcentralus region, so if you are using
     // a free trial subscription key, you should not need to change this region.
-    var uriBase = config.URI_BASE;
+    var uriBase = config.URI_BASE + '/detect';
 
     // Request parameters.
     var params = {
