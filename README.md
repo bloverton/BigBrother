@@ -16,8 +16,8 @@ In order to setup BigBrother, you must
   * Your config.js file should look like this:
     ```
     var config = {
-        SUBSCRIPTION_KEY: <Your subscription key>
-        URI_BASE: <Your uri base>
+        SUBSCRIPTION_KEY: '<Your subscription key>',
+        URI_BASE: '<Your uri base>'
     }
     ```
 3.) Open detectFaces.html in a browser
